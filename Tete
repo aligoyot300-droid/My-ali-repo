@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Fun Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .fact-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease-in;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fact-emoji {
+            font-size: 3em;
+            margin-right: 15px;
+        }
+
+        .fact-text {
+            text-align: left;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .counter {
+            margin-top: 30px;
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .counter span {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.3em;
+        }
+
+        .initial-message {
+            color: #999;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .fact-box {
+                padding: 20px;
+                min-height: 120px;
+            }
+
+            .fact-emoji {
+                font-size: 2.5em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Random Fun Facts</h1>
+        <p class="subtitle">Learn something new every day!</p>
+        
+        <div class="fact-box" id="factBox">
+            <p class="initial-message">Click the button below to discover a fun fact!</p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="getRandomFact()">✨ Get New Fact</button>
+            <button onclick="shareFact()">📤 Share</button>
+        </div>
+
+        <div class="counter">
+            Facts discovered: <span id="counter">0</span>
+        </div>
+    </div>
+
+    <script>
+        const facts = [
+            { emoji: '🐙', text: 'Octopuses have three hearts! Two pump blood to the gills, while the third pumps it to the rest of the body.' },
+            { emoji: '🍯', text: 'Honey never spoils. Archaeologists have found 3,000-year-old honey in Egyptian tombs that was still perfectly edible.' },
+            { emoji: '🦁', text: 'A lion\'s roar can be heard from 5 miles away and is used to communicate with pride members and scare off intruders.' },
+            { emoji: '🧠', text: 'Your brain generates enough electricity to power a small lightbulb!' },
+            { emoji: '🌍', text: 'A day on Venus is longer than a year on Venus. It takes 243 Earth days to rotate on its axis but only 225 days to orbit the sun.' },
+            { emoji: '🦒', text: 'Giraffes are born with horns already on their heads, and they don\'t have vocal cords so they can\'t make any sounds.' },
+            { emoji: '👅', text: 'Your tongue print is unique, just like your fingerprint!' },
+            { emoji: '🐠', text: 'Goldfish have a memory span of about 3 seconds. Just kidding! They can actually remember things for months.' },
+            { emoji: '⚡', text: 'Lightning strikes the Earth about 44 times per second, which is roughly 1.4 million times per day.' },
+            { emoji: '🦋', text: 'Butterflies taste with their feet to determine if the leaf they land on is good to eat.' },
+            { emoji: '🌙', text: 'The Moon is slowly drifting away from Earth at a rate of 1.5 inches (3.8 cm) per year.' },
+            { emoji: '🐢', text: 'Some sea turtles migrate over 7,000 miles during their lifetime to return to the beach where they were born.' },
+            { emoji: '🦆', text: 'Ducks can sleep with one half of their brain awake to watch for predators while the other half rests.' },
+            { emoji: '🌻', text: 'Sunflowers can track the movement of the sun across the sky throughout the day, following it from east to west.' },
+            { emoji: '🧬', text: 'Humans share about 60% of their DNA with bananas.' },
+            { emoji: '❄️', text: 'Every snowflake is unique and has a different crystal structure.' },
+            { emoji: '🦅', text: 'Eagles can see fish in the water from over a mile away, making them one of the best hunters in the animal kingdom.' },
+            { emoji: '🏔️', text: 'Mount Everest is growing about 4 millimeters each year due to the collision of the Indian and Eurasian tectonic plates.' },
+            { emoji: '🐧', text: 'Emperor penguins can dive deeper than 500 meters and hold their breath for up to 20 minutes.' },
+            { emoji: '🌊', text: 'The Pacific Ocean is so large that you could fit all the world\'s landmasses inside it with room to spare.' }
+        ];
+
+        let currentFact = null;
+        let factCount = 0;
+
+        function getRandomFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            currentFact = facts[randomIndex];
+            
+            const factBox = document.getElementById('factBox');
+            factBox.innerHTML = `
+                <div class="fact-text">
+                    <span class="fact-emoji">${currentFact.emoji}</span>
+                    ${currentFact.text}
+                </div>
+            `;
+            
+            factCount++;
+            document.getElementById('counter').textContent = factCount;
+        }
+
+        function shareFact() {
+            if (!currentFact) {
+                alert('Please get a fact first!');
+                return;
+            }
+
+            const factText = `${currentFact.emoji} ${currentFact.text}`;
+
+            // Try native share API first
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Fun Fact',
+                    text: factText
+                }).catch(err => console.log('Share cancelled'));
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(factText).then(() => {
+                    alert('Fact copied to clipboard! 📋');
+                }).catch(() => {
+                    alert('Could not copy fact');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
